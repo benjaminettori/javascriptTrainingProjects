@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  <div class="keys">
+    <div data-key="90" class="key">
+      <kbd>Z</kbd>
+      <span class="sound">clap</span>
+    </div>
+    <div data-key="88" class="key">
+      <kbd>X</kbd>
+      <span class="sound">hihat</span>
+    </div>
+    <div data-key="67" class="key">
+      <kbd>C</kbd>
+      <span class="sound">kick</span>
+    </div>
+    <div data-key="86" class="key">
+      <kbd>V</kbd>
+      <span class="sound">openhat</span>
+    </div>
+    <div data-key="66" class="key">
+      <kbd>B</kbd>
+      <span class="sound">boom</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">tink</span>
+    </div>
+  </div>
+
+  <audio data-key="90" src="sounds/clap.wav"></audio>
+  <audio data-key="88" src="sounds/hihat.wav"></audio>
+  <audio data-key="67" src="sounds/kick.wav"></audio>
+  <audio data-key="86" src="sounds/openhat.wav"></audio>
+  <audio data-key="66" src="sounds/boom.wav"></audio>
+  <audio data-key="72" src="sounds/ride.wav"></audio>
+  <audio data-key="74" src="sounds/snare.wav"></audio>
+  <audio data-key="75" src="sounds/tom.wav"></audio>
+  <audio data-key="76" src="sounds/tink.wav"></audio>
+
+<script>
+  // On window object add listener for key down event
+  window.addEventListener('keydown', function (e) {
+    // find audio element through the document.querySelector. Document is the DOM. Use ES6 ${} selector 
+    // to pass e.keyCode variable. Use back-tick ` for expression evaluation
+    var keyAudio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+
+    // if key pressed is not one of the sound keys, return
+    if(!keyAudio) {
+      return;
+    }
+
+
+    // first rewind the file to start, then play the sound
+    keyAudio.currentTime = 0;
+    keyAudio.play();
+
+    // Add playing class to the div
+    var keyDiv = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    keyDiv.classList.add('playing');
+
+  });
+
+  // When transition ends, remove playing class
+  function removeBorder(e) {
+    // transition applies to all elements in style, so focus on one of them i.e. transform, because only need to remove playing class once
+    if(e.propertyName !== 'transform') {
+      return;
+    }
+
+    this.classList.remove('playing');
+  }
+
+  // find all key elements in DOM, add the event listener to remove the playing class at end of transition
+  // TransitionEnd event is triggered when transition in css class is complete
+  const keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('transitionend', removeBorder));
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+</head>
+<body>
+
+  <!-- Can use console inspect -> right click -> break on attribute modification to set a break point in makeGreen method when it is fired -->
+  <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+  <script>
+    const dogs = [{ name: 'Snickers', age: 2 }, { name: 'hugo', age: 8 }];
+
+    function makeGreen() {
+      const p = document.querySelector('p');
+      p.style.color = '#BADA55';
+      p.style.fontSize = '50px';
+    }
+
+    // Regular
+    console.log("Hello");
+
+    // Interpolated
+    console.log("Hello %s", "Ben")
+
+    // Styled
+    console.log("%c Hello there", "font-size: 50px;");
+
+    // warning!
+    console.warn("Info");
+
+    // Error :|
+    console.error("Shoot me")
+
+    // Info
+    console.info("Fun fact")
+
+    // Testing
+    const p = document.querySelector("p");
+    console.assert(p.classList.contains('ouch'), 'Test failed');
+
+    // clearing
+    console.clear();
+
+    // Viewing DOM Elements
+    console.log(p);
+    // to see all the attributes
+    console.dir(p);
+
+    // Grouping together
+    dogs.forEach(d => {
+      // console.group will group information together in group - groupEnd block. Can also use groupCollapsed to collapse console info group
+      console.group(`${d.name}`);
+      console.log(`This is ${d.name}`);
+      console.log(`${d.name} is ${d.age} years old`);
+      console.groupEnd(`${d.name}`)
+    });
+
+    // counting
+    // display count on number of occurences of a particular string next to string
+    console.count("Hello");
+    console.count("Hello");
+
+    // timing: how much time does an operation take
+    console.time('Fetch data');
+    fetch('https://api.github.com/users/wesbos')
+    .then(data => data.json())
+    .then(data => {
+      console.log(data);
+      console.timeEnd('Fetch data');
+    })
+
+  </script>
+</body>
+</html>

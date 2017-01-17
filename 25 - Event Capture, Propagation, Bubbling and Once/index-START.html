@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript's Capture</title>
+</head>
+<body class="bod">
+
+  <div class="one">
+    <div class="two">
+      <div class="three">
+      </div>
+    </div>
+  </div>
+
+<style>
+  html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after { box-sizing: inherit; }
+
+  div {
+    width:100%;
+    padding:100px;
+  }
+
+  .one {
+    background: thistle;
+  }
+
+  .two {
+    background:mistyrose;
+  }
+
+  .three {
+    background:coral;
+  }
+</style>
+
+<button></button>
+<script>
+  const divs = document.querySelectorAll('div');
+
+  function logText(e) {
+    console.log(this.classList.value);
+    // events first capture, traveling from outer to inner element to determine which elements the event occurred on
+    // then events bubble back up, meaning the event callback is applied to the innermost element first, then bubbles to each parent in turn.
+    // if other parents handle this event, their callback will be called too
+
+    // Event bubbling can be stopped with 
+    e.stopPropagation();
+  }
+
+  // In add event listener, capture property in object indicates that the event callback should be executed when capturing event (not when bubbling).
+  // This will apply the callback in reverse order, unless the stopPropagation method is called.
+
+  // The once property indicates the event should unbind itself once after initial capture, which implies the callback will only be executed the first // time the event is raised.
+  divs.forEach(el => el.addEventListener('click', logText, {capture: false, once: false}));
+</script>
+</body>
+</html>

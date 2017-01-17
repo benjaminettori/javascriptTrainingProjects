@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+  <style>
+  html {
+    color:black;
+    font-family: sans-serif;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    color:black;
+  }
+
+  h1 {
+    text-shadow: 10px 10px 0 rgba(0,0,0,1);
+    font-size: 100px;
+  }
+  </style>
+
+<script>
+  const hero = document.querySelector('.hero');
+  const text = hero.querySelector('h1');
+  const walk = 100; //px
+
+  function updateScreen(e) {
+    // ES6 syntax, x, y, width, heigh are the variables being set off of the e and hero objects
+    let {offsetX: x, offsetY: y} = e;
+    const {offsetWidth: width, offsetHeight: height} = hero;
+
+    // this is hero, target might be child element of hero, so need to adjust value of x, y if this is the case
+    if(this !== e.target) {
+      x = x + e.target.offsetLeft;
+      y = y + e.target.offsetTop;
+    }
+
+    // this formula constrains the shadow within a certain bounded box defined by the variable walk
+    let xwalk = (x / width) * walk - walk/2;
+    let ywalk = (y / height) * walk - walk/2;
+
+    text.style.textShadow = `
+    ${xwalk}px ${ywalk}px 0 red,
+    ${-xwalk}px ${ywalk}px 0  blue
+    `;
+  }
+
+  hero.addEventListener('mousemove', updateScreen);
+
+</script>
+</body>
+</html>

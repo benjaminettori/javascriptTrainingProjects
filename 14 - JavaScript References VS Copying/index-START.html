@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Reference VS Copy</title>
+</head>
+<body>
+
+  <script>
+    // start with strings, numbers and booleans
+
+    // Let's say we have an array
+    const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+
+    // and we want to make a copy of it.
+
+    // You might think we can just do something like this:
+
+    const team = players;
+
+    // however what happens when we update that array?
+    team[3] = 'Ben';
+
+    // now here is the problem!
+    console.log(players);
+    console.log(team);
+
+    // oh no - we have edited the original array too!
+
+    // Why? It's because that is an array reference, not an array copy. They both point to the same array!
+
+    // So, how do we fix this? We take a copy instead!
+
+    // There are several ways to take a copy
+
+    const team2 = players.slice();
+    const team3 = [].concat(players);
+
+
+    team2[3] = 'Ben';
+    team3[3] = 'Judi';
+    console.log(team2, team3);
+
+    // one day
+
+    // or create a new array and concat the old one in
+
+    // or use the new ES6 Spread
+
+    const team4 = [...players];
+    const team5 = Array.from(players);
+
+    team4[3] = 'Spread';
+    team5[3] = 'Array.from';
+
+    console.log(team4, team5);
+
+    // now when we update it, the original one isn't changed
+
+    // The same thing goes for objects, let's say we have a person object
+    const person = {
+        name: 'Benjamin Ettori',
+        age: '88'
+    }
+
+    // with Objects
+
+    // and think we make a copy:
+
+    const person2 = person;
+
+    person2.number = '90';
+
+    console.log(person, person2);
+
+    person.social = {
+        twitter: 'twitter',
+        facebook: 'facebook'
+    };
+
+    // if we modify property in person2 we also modify property in person
+
+    // how do we take a copy instead?
+
+    const person3 = Object.assign({}, person);
+
+    // JSON methods are the only way to perform deep clone without specialized methods.
+
+    const person4 = JSON.parse(JSON.stringify(person));
+
+    person3.number = 'Object.assign';
+    person3.social.twitter = 'Modified social object';
+
+    person4.number = 'JSON';
+    person4.social.twitter = 'Modified twitter property only';
+
+    console.log(person3, person4);
+
+    // We will hopefully soon see the object ...spread
+
+    // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+
+  </script>
+
+</body>
+</html>
